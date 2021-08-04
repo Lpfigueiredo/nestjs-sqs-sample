@@ -9,9 +9,14 @@ export class AudioController {
 
   @Post('transcode')
   public async dispatchSomething() {
+    const id = new Date().getTime().toString();
+
     await this.sqsService.send('audio', {
-      id: new Date().getTime().toString(),
+      id,
       body: 'Mensagem de teste',
+      delaySeconds: 0,
+      groupId: 'test',
+      deduplicationId: id,
     });
 
     this.logger.debug('Mensagem enviada');

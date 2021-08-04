@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable, Logger } from '@nestjs/common';
 import { SqsConsumerEventHandler, SqsMessageHandler } from '@ssut/nestjs-sqs';
 import { SQS } from 'aws-sdk';
@@ -6,10 +7,18 @@ import { SQS } from 'aws-sdk';
 export class AppMessageHandler {
   private readonly logger = new Logger(AppMessageHandler.name);
 
-  @SqsMessageHandler('audio')
+  @SqsMessageHandler('audio', false)
   public async handleMessage(message: SQS.Message) {
-    this.logger.debug('Start transcoding...');
     this.logger.debug(message);
+  }
+
+  @SqsConsumerEventHandler('audio', 'message_received')
+  public onMessageReceived(message: SQS.Message) {
+    this.logger.debug('Start transcoding...');
+  }
+
+  @SqsConsumerEventHandler('audio', 'message_processed')
+  public onMessageProcessed(message: SQS.Message) {
     this.logger.debug('Transcoding completed');
   }
 

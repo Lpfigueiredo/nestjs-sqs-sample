@@ -1,19 +1,7 @@
 import { Module } from '@nestjs/common';
-import { SqsModule } from '@ssut/nestjs-sqs';
-import { AudioController } from './audio/audio.controller';
+import { AudioModule } from './audio/audio.module';
 
 @Module({
-  imports: [
-    SqsModule.register({
-      consumers: [],
-      producers: [
-        {
-          name: 'audio',
-          queueUrl: 'http://localhost:4566/queue/audio',
-        },
-      ],
-    }),
-  ],
-  controllers: [AudioController],
+  imports: [AudioModule],
 })
 export class AppModule {}

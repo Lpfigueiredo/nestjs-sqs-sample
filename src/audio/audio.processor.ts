@@ -8,7 +8,9 @@ export class AppMessageHandler {
 
   @SqsMessageHandler('audio')
   public async handleMessage(message: SQS.Message) {
+    this.logger.debug('Start transcoding...');
     this.logger.debug(message);
+    this.logger.debug('Transcoding completed');
   }
 
   @SqsConsumerEventHandler('audio', 'processing_error')
